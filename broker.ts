@@ -149,6 +149,21 @@ export class Broker {
     }
   }
 
+  public listenToServices(serviceName, callback) {
+    let topics = Exchange.Topics;
+    for (let i = 0; i < topics.length; i++) {
+      let topic = topics[i];
+      let topicName = topic.TopicName;
+      let subscribers = topic.Subscribers;
+      for (let j = 0; j < subscribers.length; j++) {
+        let subscriber = subscribers[j];
+        let service_Name = subscriber.Service;
+        if (service_Name === serviceName) {
+          this.listenToService(topicName, serviceName, callback);
+        }
+      }
+    }
+  }
   //A callback is a function passed as an argument to another function
   //This technique allows a function to call another function
   //A callback function can run after another function has finished
